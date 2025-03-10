@@ -1,0 +1,107 @@
+openapi: 3.1.0
+info:
+  title: Brumalink Shipment Platform API
+  version: "0.1"
+  description: Fictional API specification - documentation only.
+servers:
+  - url: https://api.brumalink.example/v1
+
+paths:
+  /shipments:
+    get:
+      summary: List shipments
+      tags: [shipments]
+      responses:
+        "200":
+          description: Shipments, newest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Shipment"
+    post:
+      summary: Create a shipment
+      tags: [shipments]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ShipmentCreate"
+      responses:
+        "201":
+          description: Shipment created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+        "422":
+          description: Unknown product profile
+
+  /shipments/{reference}:
+    get:
+      summary: Get a shipment
+      tags: [shipments]
+      parameters:
+        - $ref: "#/components/parameters/Reference"
+      responses:
+        "200":
+          description: The shipment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Shipment"
+        "404":
+          description: Shipment not found
+
+components:
+  parameters:
+    Reference:
+      name: reference
+      in: path
+      required: true
+      schema:
+        type: string
+        pattern: "^BL-\\d{4}-\\d{6}$"
+      example: BL-2025-000123
+
+  schemas:
+    ShipmentStatus:
+      type: string
+      enum: [created, in_transit, delivered, quarantined]
+
+    ShipmentCreate:
+      type: object
+      required: [reference, product_profile, origin, destination]
+      properties:
+        reference:
+          type: string
+          example: BL-2025-000123
+        product_profile:
+          type: string
+          enum: ["2-8C", "15-25C", "frozen"]
+        origin:
+          type: string
+          example: WAW-HUB-1
+        destination:
+          type: string
+          example: PHARMACY-POZ-0417
+        tracker_id:
+          type: string
+          example: BLT3-00F1A2
+
+    Shipment:
+      allOf:
+        - $ref: "#/components/schemas/ShipmentCreate"
+        - type: object
+          properties:
+            status:
+              $ref: "#/components/schemas/ShipmentStatus"
+            min_temp_c:
+              type: number
+            max_temp_c:
+              type: number
+            created_at:
+              type: string
+              format: date-time
