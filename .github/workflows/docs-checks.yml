@@ -1,0 +1,25 @@
+name: Docs checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checks:
+    name: Documentation checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: README present
+        run: test -f README.md || { echo "::error::README.md is missing"; exit 1; }
+
+      - name: Documentation file types only
+        run: |
+          bad=$(git ls-files | grep -Ev '\.(md|ya?ml|json|csv|svg|png|pdf|txt)$|(^|/)CODEOWNERS$|(^|/)\.git(ignore|attributes)$' || true)
+          if [ -n "$bad" ]; then
+            echo "::error::non-documentation files found:"
+            echo "$bad"
+            exit 1
+          fi
