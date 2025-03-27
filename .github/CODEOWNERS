@@ -1,0 +1,10 @@
+# Default owners
+*                               @brumalink/backend
+
+# Repository configuration
+/.github/                       @brumalink/devops
+
+# GDP-relevant documents need QA & Compliance sign-off
+/docs/excursion-rules.md        @brumalink/backend @brumalink/qa-compliance
+/docs/custody-chain.md          @brumalink/backend @brumalink/qa-compliance
+/docs/adr/                      @brumalink/backend @brumalink/qa-compliance
