@@ -1,0 +1,11 @@
+# Default owners
+*                                @brumalink/backend
+
+# CI/CD and repository configuration
+/.github/                        @brumalink/devops
+/Dockerfile                      @brumalink/devops
+
+# GDP-relevant: custody chain and audit documentation need QA & Compliance sign-off
+/app/services/custody_hash.py    @brumalink/backend @brumalink/qa-compliance
+/app/models/custody_event.py     @brumalink/backend @brumalink/qa-compliance
+/docs/                           @brumalink/backend @brumalink/qa-compliance
