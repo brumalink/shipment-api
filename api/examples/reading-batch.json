@@ -1,0 +1,5 @@
+[
+  { "tracker_id": "BLT3-00F1A2", "sequence": 18231, "recorded_at": "2025-05-02T08:00:00+02:00", "temperature_c": 5.0, "humidity_pct": 61.2, "battery_pct": 87 },
+  { "tracker_id": "BLT3-00F1A2", "sequence": 18232, "recorded_at": "2025-05-02T08:05:00+02:00", "temperature_c": 5.3, "humidity_pct": 61.0, "battery_pct": 87 },
+  { "tracker_id": "BLT3-00F1A2", "sequence": 18233, "recorded_at": "2025-05-02T08:10:00+02:00", "temperature_c": 5.1, "humidity_pct": 60.8, "battery_pct": 87 }
+]
