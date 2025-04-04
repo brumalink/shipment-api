@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Brumalink Shipment Platform API
-  version: "0.1"
+  version: "0.2"
   description: Fictional API specification - documentation only.
 servers:
   - url: https://api.brumalink.example/v1
@@ -55,6 +55,23 @@ paths:
         "404":
           description: Shipment not found
 
+  /readings:
+    post:
+      summary: Ingest a batch of tracker readings
+      description: Called by the MQTT bridge, see docs/ingestion.md.
+      tags: [readings]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Reading"
+      responses:
+        "202":
+          description: Batch accepted
+
 components:
   parameters:
     Reference:
@@ -105,3 +122,30 @@ components:
             created_at:
               type: string
               format: date-time
+
+    Reading:
+      type: object
+      required: [tracker_id, sequence, recorded_at, temperature_c]
+      properties:
+        tracker_id:
+          type: string
+          example: BLT3-00F1A2
+        sequence:
+          type: integer
+          minimum: 0
+          description: Monotonic per tracker
+        recorded_at:
+          type: string
+          format: date-time
+        temperature_c:
+          type: number
+          minimum: -80
+          maximum: 80
+        humidity_pct:
+          type: number
+          minimum: 0
+          maximum: 100
+        battery_pct:
+          type: integer
+          minimum: 0
+          maximum: 100
