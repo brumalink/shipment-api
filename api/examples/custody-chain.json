@@ -1,0 +1,10 @@
+{
+  "reference": "BL-2025-000123",
+  "intact": true,
+  "broken_at": null,
+  "events": [
+    { "occurred_at": "2025-05-02T06:10:00+02:00", "from": "WAW-HUB-1", "to": "driver:TW-114", "location": "WAW", "signed_by": "driver TW-114" },
+    { "occurred_at": "2025-05-02T09:45:00+02:00", "from": "driver:TW-114", "to": "POZ-HUB-1", "location": "POZ", "signed_by": "hub operator P-07" },
+    { "occurred_at": "2025-05-02T13:20:00+02:00", "from": "POZ-HUB-1", "to": "PHARMACY-POZ-0417", "location": "POZ", "signed_by": "pharmacist on duty" }
+  ]
+}
