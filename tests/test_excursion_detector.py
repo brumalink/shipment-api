@@ -1,8 +1,10 @@
 from datetime import datetime, timedelta
 
+import pytest
+
 from app.services.excursion_detector import Reading, detect
 
-T0 = datetime(2025, 4, 1, 8, 0)
+T0 = datetime(2025, 5, 1, 8, 0)
 
 
 def series(*temps: float) -> list[Reading]:
@@ -22,3 +24,17 @@ def test_single_excursion_is_reported_with_peak():
 
 def test_too_cold_is_an_excursion_too():
     assert len(detect(series(3.0, 1.2, 0.8, 3.5))) == 1
+
+
+def test_room_temperature_profile():
+    assert detect(series(18.0, 22.0, 24.9), profile="15-25C") == []
+    assert len(detect(series(20.0, 26.5, 20.0), profile="15-25C")) == 1
+
+
+def test_frozen_profile():
+    assert len(detect(series(-20.0, -12.0, -11.0, -20.0), profile="frozen")) == 1
+
+
+def test_unknown_profile_is_rejected():
+    with pytest.raises(ValueError):
+        detect(series(5.0), profile="ambient")
