@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Brumalink Shipment Platform API
-  version: "0.2"
+  version: "0.3"
   description: Fictional API specification - documentation only.
 servers:
   - url: https://api.brumalink.example/v1
@@ -54,6 +54,38 @@ paths:
                 $ref: "#/components/schemas/Shipment"
         "404":
           description: Shipment not found
+
+  /shipments/{reference}/excursions:
+    get:
+      summary: Temperature excursions of a shipment
+      description: Evaluated from raw readings with the rules in docs/excursion-rules.md.
+      tags: [excursions]
+      parameters:
+        - $ref: "#/components/parameters/Reference"
+      responses:
+        "200":
+          description: Excursions, oldest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Excursion"
+
+  /shipments/{reference}/custody:
+    get:
+      summary: Chain of custody of a shipment
+      description: Hash-chained handover events, see docs/custody-chain.md.
+      tags: [custody]
+      parameters:
+        - $ref: "#/components/parameters/Reference"
+      responses:
+        "200":
+          description: Custody chain with integrity status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustodyChain"
 
   /readings:
     post:
@@ -149,3 +181,42 @@ components:
           type: integer
           minimum: 0
           maximum: 100
+
+    Excursion:
+      type: object
+      properties:
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+        peak_c:
+          type: number
+
+    CustodyChain:
+      type: object
+      properties:
+        reference:
+          type: string
+        intact:
+          type: boolean
+          description: false if any past event was altered, removed or reordered
+        broken_at:
+          type: [integer, "null"]
+        events:
+          type: array
+          items:
+            type: object
+            properties:
+              occurred_at:
+                type: string
+                format: date-time
+              from:
+                type: string
+              to:
+                type: string
+              location:
+                type: string
+              signed_by:
+                type: string
