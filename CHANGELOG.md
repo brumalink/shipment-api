@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [v1.0.0] - 2025-07-01
+
+- Document route planning rules
+- Add cold-storage hub list
+- Update README for production go-live
+
 ## [v0.2.0] - 2025-06-10
 
 - Add quarantine and rejection to shipment lifecycle
