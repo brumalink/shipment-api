@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [v1.0.0] - 2025-07-01
+
+- Port route planning from legacy-route-planner
+- Add route planner tests
+- Update README for production go-live
+
 ## [v0.2.0] - 2025-06-10
 
 - Bump FastAPI, uvicorn and SQLAlchemy
