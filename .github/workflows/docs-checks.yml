@@ -23,3 +23,18 @@ jobs:
             echo "$bad"
             exit 1
           fi
+
+      - name: No private keys or tokens committed
+        run: |
+          if git grep -nE -- '-----BEGIN ([A-Z]+ )?PRIVATE KEY-----|AKIA[0-9A-Z]{16}|ghp_[A-Za-z0-9]{36}' -- . ':!.github/workflows/*'; then
+            echo "::error::possible secret committed"
+            exit 1
+          fi
+
+      - name: No large files outside Git LFS
+        run: |
+          big=$(git ls-files -z | xargs -0 -r du -k | awk '$1 > 1024 {print $2}')
+          if [ -n "$big" ]; then
+            echo "::error::files over 1 MB must be tracked with Git LFS: $big"
+            exit 1
+          fi
