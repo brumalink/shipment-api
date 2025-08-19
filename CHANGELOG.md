@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [v1.1.0] - 2025-08-19
+
+- Fix duplicate readings stored after tracker reconnect
+- CI: test on Python 3.12 and 3.13
+- Add pagination to shipment listing
+
 ## [v1.0.0] - 2025-07-01
 
 - Port route planning from legacy-route-planner

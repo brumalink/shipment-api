@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -24,8 +24,13 @@ def create_shipment(payload: ShipmentCreate, db: Session = Depends(get_session))
 
 
 @router.get("", response_model=list[ShipmentOut])
-def list_shipments(db: Session = Depends(get_session)):
-    return db.scalars(select(Shipment).order_by(Shipment.created_at.desc())).all()
+def list_shipments(
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+    db: Session = Depends(get_session),
+):
+    query = select(Shipment).order_by(Shipment.created_at.desc()).limit(limit).offset(offset)
+    return db.scalars(query).all()
 
 
 @router.get("/{reference}", response_model=ShipmentOut)
