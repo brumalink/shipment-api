@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [v1.1.0] - 2025-08-19
+
+- Ingestion: document duplicate handling after reconnect
+- Docs checks: fail on committed secrets and large files
+- Specify pagination for shipment listing
+
 ## [v1.0.0] - 2025-07-01
 
 - Document route planning rules
