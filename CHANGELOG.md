@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [v1.2.0] - 2025-10-21
+
+- Document GDP audit trail in architecture overview
+- Excursion rules v3: tolerate short door-open spikes (SOP-TR-07)
+
 ## [v1.1.0] - 2025-08-19
 
 - Ingestion: document duplicate handling after reconnect

@@ -1,6 +1,6 @@
 # Temperature excursion rules
 
-Version 2 – valid from 2025-05-20. See [ADR 0002](adr/0002-excursion-rules.md).
+Version 3 – valid from 2025-10-21. See [ADR 0002](adr/0002-excursion-rules.md) and SOP-TR-07 in `gdp-compliance-docs`.
 
 ## Product profiles
 
@@ -18,16 +18,29 @@ An **excursion** is a continuous run of readings outside the shipment's range. I
 outside the range and ends at the last reading outside the range. The **peak** is the reading with the largest
 deviation from the range.
 
+### Short spikes (new in version 3)
+
+Opening the container door during loading causes short temperature spikes that do not affect product quality.
+Per SOP-TR-07 a run is **ignored** when both are true:
+
+- it lasts **less than 10 minutes**, and
+- its peak deviates from the range by **less than 5 °C**.
+
+A short but severe spike (deviation of 5 °C or more) is always an excursion.
+
 ## Consequence
 
 Any excursion puts the shipment in `quarantined` status and alerts the QA duty officer.
 
-## Example (`2-8C`)
+## Examples (`2-8C`, one reading every 5 minutes)
 
-| Time | °C | |
-|---|---|---|
-| 08:00 | 5.0 | |
-| 08:05 | 8.4 | excursion starts |
-| 08:10 | 9.6 | peak |
-| 08:15 | 8.9 | excursion ends |
-| 08:20 | 6.0 | |
+| Readings (°C) | Result |
+|---|---|
+| 5.0, 8.4, 9.6, 8.9, 8.5, 6.0 | excursion – 15 minutes above 8 °C, peak 9.6 |
+| 5.0, 9.0, 8.7, 6.0 | ignored – 5 minutes, +1 °C (door opened) |
+| 5.0, 14.0, 13.5, 6.0 | excursion – only 5 minutes, but +6 °C |
+
+## Why the history of this document matters
+
+Shipments are evaluated with the rule version valid on the shipment date. During audits we must show which
+version applied – the git history and tags of this repository are the evidence.
