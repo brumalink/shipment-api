@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Brumalink Shipment Platform API
-  version: "1.1"
+  version: "2.0"
   description: Fictional API specification - documentation only.
 servers:
   - url: https://api.brumalink.example/v1
@@ -106,6 +106,34 @@ paths:
       responses:
         "202":
           description: Batch accepted
+
+  /tenants:
+    get:
+      summary: List tenants (3PL partners)
+      tags: [tenants]
+      responses:
+        "200":
+          description: Tenants ordered by slug
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tenant"
+    post:
+      summary: Register a tenant
+      tags: [tenants]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tenant"
+      responses:
+        "201":
+          description: Tenant registered
+        "422":
+          description: Invalid slug or unsupported data region
 
 components:
   parameters:
@@ -238,3 +266,18 @@ components:
                 type: string
               signed_by:
                 type: string
+    Tenant:
+      type: object
+      required: [slug, name]
+      properties:
+        slug:
+          type: string
+          pattern: "^[a-z][a-z0-9-]{2,30}[a-z0-9]$"
+          example: nordic-3pl
+        name:
+          type: string
+          example: Nordic 3PL Partner (fictional)
+        data_region:
+          type: string
+          enum: [eu-central, eu-north]
+          default: eu-central
