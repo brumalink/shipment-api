@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [v2.0.0] - 2026-02-10
+
+- Add Tenant model with slug validation
+- Add tenant admin endpoints
+- Add tenant slug validation tests
+- Release 2.0 - multi-tenant platform for 3PL partners
+
 ## [v1.2.0] - 2025-10-21
 
 - Document GDP audit trail in architecture overview
