@@ -2,12 +2,19 @@
 
 ```mermaid
 erDiagram
+    TENANT ||--o{ SHIPMENT : "owns"
     SHIPMENT ||--o{ CUSTODY_EVENT : "has"
     SHIPMENT }o--o| TRACKER : "monitored by"
     TRACKER ||--o{ SENSOR_READING : "reports"
 
+    TENANT {
+        string slug PK
+        string name
+        string data_region
+    }
     SHIPMENT {
         string reference PK
+        string tenant_slug FK
         string product_profile
         string origin
         string destination
@@ -32,3 +39,6 @@ erDiagram
 
 Temperature limits are copied onto the shipment at creation time, so later changes to a product profile
 never alter the evaluation of historical shipments.
+
+Since v2.0 every shipment belongs to a tenant. Brumalink's own consignments use the `brumalink` tenant.
+Sensor readings are partitioned monthly and retained for 5 years (ADR 0004).
