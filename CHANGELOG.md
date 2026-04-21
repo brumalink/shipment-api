@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [v2.1.0] - 2026-04-21
+
+- Run container as non-root user (SR-2026-03)
+- Bump dependencies
+- Retry customer webhooks with exponential backoff
+
 ## [v2.0.0] - 2026-02-10
 
 - Add Tenant model with slug validation
