@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## [v2.1.0] - 2026-04-21
+
+- Deployment: unprivileged containers (SR-2026-03)
+- Add tenants to data model diagram
+- Notifications: retry webhooks with exponential backoff
+
 ## [v2.0.0] - 2026-02-10
 
 - Describe multi-tenant model

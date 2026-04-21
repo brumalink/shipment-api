@@ -10,3 +10,8 @@ When a shipment is quarantined:
 ```
 
 Webhook endpoints are configured per customer by the account manager.
+
+## Retries
+
+Customer endpoints are often unreliable. A failed webhook is retried **3 times with exponential backoff**
+(after 1 s, 2 s and 4 s). After the last failure the account manager is notified.
