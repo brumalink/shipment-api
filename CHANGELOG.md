@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [v2.2.0] - 2026-06-16
+
+- ADR 0004: retention of readings, custody events and repository history
+- Specify shipment filters by status, origin and destination
+
 ## [v2.1.0] - 2026-04-21
 
 - Deployment: unprivileged containers (SR-2026-03)
