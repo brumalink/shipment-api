@@ -3,7 +3,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.db import get_session
-from app.models.shipment import Shipment
+from app.models.shipment import Shipment, ShipmentStatus
 from app.schemas.shipment import ShipmentCreate, ShipmentOut
 
 router = APIRouter(prefix="/shipments", tags=["shipments"])
@@ -25,11 +25,21 @@ def create_shipment(payload: ShipmentCreate, db: Session = Depends(get_session))
 
 @router.get("", response_model=list[ShipmentOut])
 def list_shipments(
+    status_: ShipmentStatus | None = Query(None, alias="status"),
+    origin: str | None = None,
+    destination: str | None = None,
     limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
     db: Session = Depends(get_session),
 ):
-    query = select(Shipment).order_by(Shipment.created_at.desc()).limit(limit).offset(offset)
+    query = select(Shipment)
+    if status_ is not None:
+        query = query.where(Shipment.status == status_)
+    if origin:
+        query = query.where(Shipment.origin == origin)
+    if destination:
+        query = query.where(Shipment.destination == destination)
+    query = query.order_by(Shipment.created_at.desc()).limit(limit).offset(offset)
     return db.scalars(query).all()
 
 
