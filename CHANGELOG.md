@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [v2.3.0] - 2026-08-11
+
+- Docs checks: pin actions by SHA, read-only token, timeouts
+- Notifications: one alert per excursion (INC-2026-031)
+
 ## [v2.2.0] - 2026-06-16
 
 - ADR 0004: retention of readings, custody events and repository history
