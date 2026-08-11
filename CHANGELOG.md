@@ -2,6 +2,11 @@
 
 All notable changes to this project are documented in this file.
 
+## [v2.3.0] - 2026-08-11
+
+- CI: cache pip dependencies, restrict token permissions
+- Fix excursion alert sent twice after tracker reconnect
+
 ## [v2.2.0] - 2026-06-16
 
 - ADR 0004: retention of readings, custody events and source history

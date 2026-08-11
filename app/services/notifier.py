@@ -3,6 +3,7 @@
 import logging
 import smtplib
 import time
+from datetime import datetime
 from email.message import EmailMessage
 
 import httpx
@@ -11,6 +12,10 @@ from app.config import settings
 
 log = logging.getLogger(__name__)
 WEBHOOK_ATTEMPTS = 4
+
+# (shipment, excursion start) pairs already alerted. Trackers re-send buffered readings after
+# reconnecting, which used to re-trigger the same excursion and page the QA officer twice.
+_alerted: set[tuple[str, datetime]] = set()
 
 
 def send_email(to: str, subject: str, body: str) -> None:
@@ -36,8 +41,19 @@ def send_webhook(url: str, payload: dict) -> None:
             time.sleep(2 ** (attempt - 1))
 
 
-def notify_excursion(shipment_ref: str, peak_c: float, qa_email: str, webhook_url: str | None) -> None:
+def notify_excursion(
+    shipment_ref: str, started_at: datetime, peak_c: float, qa_email: str, webhook_url: str | None
+) -> bool:
+    """Send alerts once per excursion. Returns False if this excursion was already alerted."""
+    key = (shipment_ref, started_at)
+    if key in _alerted:
+        return False
+    _alerted.add(key)
+
     subject = f"[EXCURSION] {shipment_ref} peaked at {peak_c:.1f} C"
     send_email(qa_email, subject, f"Shipment {shipment_ref} has been quarantined pending QA review.")
     if webhook_url:
-        send_webhook(webhook_url, {"event": "excursion", "shipment": shipment_ref, "peak_c": peak_c})
+        payload = {"event": "excursion", "shipment": shipment_ref, "started_at": started_at.isoformat(),
+                   "peak_c": peak_c}
+        send_webhook(webhook_url, payload)
+    return True
