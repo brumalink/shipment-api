@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+## [v2.3.1] - 2026-08-25
+
+- Ingestion: require HMAC signature on tracker batches
+
 ## [v2.3.0] - 2026-08-11
 
 - Docs checks: pin actions by SHA, read-only token, timeouts
