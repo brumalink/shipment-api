@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+## [v2.3.1] - 2026-08-25
+
+- Verify HMAC signature of tracker payloads
+
 ## [v2.3.0] - 2026-08-11
 
 - CI: cache pip dependencies, restrict token permissions
