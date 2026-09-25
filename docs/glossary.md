@@ -11,4 +11,5 @@
 | **Chain of custody** | Ordered record of who had the consignment, where and when. |
 | **Hub** | Brumalink cold-storage facility where consignments are cross-docked. |
 | **GDP** | Good Distribution Practice – EU guidelines for distribution of medicinal products. |
+| **Responsible Person (RP)** | The person named on the wholesale distribution authorisation who is accountable for GDP compliance. At Brumalink: Head of Quality. |
 | **3PL** | Third-party logistics partner (tenant of the platform since v2.0). |
